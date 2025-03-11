@@ -1,0 +1,23 @@
+{
+    "manifest_version": 3,
+    "name": "Wikipedia Inconsistency",
+    "version": "2.0",
+    "description": "Identifies and highlights inconsistencies in Wikipedia articles",
+    "permissions": [
+        "storage"
+    ],
+    "content_scripts": [
+        {
+            "matches": [
+                "*://*.wikipedia.org/wiki/*"
+            ],
+            "js": [
+                "content.js",
+                "mark.min.js"
+            ],
+            "css": [
+                "styles.css"
+            ]
+        }
+    ]
+}

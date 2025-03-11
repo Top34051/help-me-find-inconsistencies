@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research Study Instructions</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            position: relative;
+        }
+
+        .toc {
+            position: fixed;
+            left: 20px;
+            top: 20px;
+            width: 250px;
+            padding: 15px;
+            z-index: 100;
+        }
+
+        .toc h2 {
+            margin-top: 0;
+            font-size: 1.2em;
+        }
+
+        .toc ul {
+            list-style-type: none;
+            padding-left: 10px;
+        }
+
+        .toc li {
+            margin-bottom: 8px;
+        }
+
+        .toc a {
+            text-decoration: none;
+            color: #000000;
+            font-size: 0.9em;
+        }
+
+        .toc a:hover {
+            text-decoration: underline;
+        }
+
+        .toc .active {
+            font-weight: bold;
+        }
+
+        .content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1,
+        h2 {
+            color: #0066cc;
+            margin-bottom: 10px;
+        }
+
+        .section {
+            margin-bottom: 20px;
+            scroll-margin-top: 20px;
+        }
+
+        .highlight {
+            background-color: #ffffcc;
+            padding: 0px 10px;
+            border-left: 4px solid #ffcc00;
+            margin: 15px 0;
+        }
+
+        .study-procedure {
+            display: block;
+            margin-bottom: 20px;
+            padding: 20px;
+            border-radius: 5px;
+            background-color: #f9f9f9b2;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border: 1px solid #ccc;
+        }
+
+        .study-procedure h3 {
+            margin: 0px;
+        }
+
+        .study-procedure ol {
+            margin-bottom: 0px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="toc">
+        <ul>
+            <li><a href="#introduction">Introduction</a></li>
+            <li><a href="#find-inconsistencies">Help Me Find Inconsistencies</a></li>
+            <li><a href="#study-procedure">Study Procedure</a></li>
+            <li><a href="#installation">Chrome Extension Installation</a></li>
+            <li><a href="#study-info">Study Information</a></li>
+            <li><a href="#contact">Contact Information</a></li>
+        </ul>
+    </div>
+
+    <div class="content">
+        <h1 id="introduction">Research Study on Inconsistency Detection in Wikipedia</h1>
+
+        <p>
+            Thank you for participating in this research study on inconsistency detection on Wikipedia. In this study,
+            we
+            will ask you to find inconsistencies in the English Wikipedia with and without the help of our
+            chrome extension which will be provided to you. Please read the following details carefully.
+        </p>
+
+        <div class="section" id="find-inconsistencies">
+            <h2>Help Me Find Inconsistencies!</h2>
+            <p>
+                Factual inconsistencies in Wikipedia articles occur when information conflicts between different pages.
+                This
+                can happen when different editors work independently on related topics, or when one article is updated
+                with
+                new information while another isn't. Identifying these inconsistencies is the first step toward
+                resolving
+                them.
+            </p>
+
+            <p>
+                However, even simple conflicts can be challenging to spot, so we have developed a chrome extension
+                that highlights potential inconsistencies in Wikipedia articles for editors to review.
+            </p>
+
+            <p>Watch this short video to see how the chrome extension works:</p>
+            <div style="text-align: center; margin: 20px 0;">
+                <video style="width: 80%; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);" controls>
+                    <source src="./assets/tutorial.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </div>
+
+        <div class="section" id="study-procedure">
+            <h2>Study Procedure</h2>
+            <p>
+                The study will be split into two parts. In the first part, you will be given a list of Wikipedia
+                articles
+                and asked to find inconsistencies in them without the help of the Chrome extension. In the second part,
+                you will be given the same list of articles and asked to find inconsistencies again, but this time with
+                the
+                help of the Chrome extension.
+            </p>
+            <div>
+                <div class="study-procedure">
+                    <h3>Part 1: Without the Chrome Extension</h3>
+                    <ol>
+                        <li>You will be given a list of paragraphs from the articles. You will be asked to identify the
+                            inconsistencies in the paragraphs. Each paragraph given to you will look like this example:
+                        </li>
+                        <div style="text-align: center; margin: 15px 0;">
+                            <img src="./assets/paragraph_example.png" alt="Example paragraph with inconsistency"
+                                style="max-width: 50%; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                            <div>
+                                <a
+                                    href="https://en.wikipedia.org/wiki/Top-level_domain#History">https://en.wikipedia.org/wiki/Top-level_domain#History</a>
+                            </div>
+                        </div>
+
+                        <li>You may use any resources, including the internet, to help you identify inconsistencies.
+                            <em>However, you must only report inconsistencies between the provided paragraphs and other
+                                content found within Wikipedia articles.</em>
+                        </li>
+                        <li>You will complete a form where you'll document each inconsistency you discover and track
+                            how much time you spent finding them.</li>
+                    </ol>
+                </div>
+                <div class="study-procedure">
+                    <h3>Part 2: With the Chrome Extension</h3>
+                    <ol>
+                        <li>Install the Chrome extension as described in the <a href="#installation">Installation</a>
+                            section.</li>
+                        <li>You will be given another list of paragraphs from the articles. You will be asked to
+                            identify
+                            the inconsistencies in them with the help of the Chrome extension.</li>
+                        <div class="highlight">
+                            <p>
+                                <strong>Note:</strong> The chrome extension will highlight potential inconsistencies in
+                                the paragraphs. You click on the highlighted text to see why it is potentially
+                                inconsistent. This helps you identify inconsistencies more quickly.
+                            </p>
+                        </div>
+                        <div style="text-align: center; margin: 15px 0;">
+                            <img src="./assets/extension_example.png" alt="Example chrome extension"
+                                style="max-width: 80%;">
+                        </div>
+                        <li>Again, you may use any resources, including the internet, along with the Chrome extension to
+                            help you identify inconsistencies. You must only report inconsistencies between the provided
+                            paragraphs and other content found within Wikipedia articles.</li>
+                        <li>Give feedback on the claims that the chrome extension flags as potentially inconsistent
+                            whether they are actually inconsistent or not.</li>
+                        <div style="text-align: center; margin: 15px 0;">
+                            <img src="./assets/feedback.png" alt="Feedback example" style="max-width: 80%;">
+                        </div>
+                        <li>After you have completed the task, you will complete a form where you'll document each
+                            inconsistency you discover and track how much time you spent finding them.</li>
+                    </ol>
+                </div>
+            </div>
+
+            <p>Some participants may be asked to complete the parts in a different order (i.e. Part 2 first, then Part
+                1).
+                You will be notified of this beforehand.</p>
+        </div>
+
+        <div class="section" id="installation">
+            <h2>Chrome Extension Installation</h2>
+            <ol>
+                <li>Download this zip file: <a
+                        href="./assets/help-me-find-inconsistencies.zip">help-me-find-inconsistencies.zip</a>
+                </li>
+                <li>Unzip the file, and you will see a folder called <code>help-me-find-inconsistencies</code>.</li>
+                <li>Open Chrome and navigate to <a href="chrome://extensions">chrome://extensions</a>.</li>
+                <li>Enable "Developer mode" if it is not already enabled.</li>
+                <li>Click "Load unpacked" and select the <code>help-me-find-inconsistencies</code> folder.</li>
+                <div style="text-align: center; margin: 15px 0;">
+                    <img src="./assets/load_unpacked.png" alt="Load unpacked" style="max-width: 80%;">
+                </div>
+                <li>Reload the page after installing the extension and you should see the extension icon in the top
+                    right
+                    corner of the page! Please let us know if you have any issues.</li>
+            </ol>
+        </div>
+
+        <div class="section" id="study-info">
+            <h2>Study Information</h2>
+            <p>By participating in this study, you certify that you are at least 18 years of age.</p>
+
+            <h3 id="privacy">Privacy Policy</h3>
+            <p>We will use the email address you provided in the Expression of Interest form solely to send you payment
+                in
+                the form of an Amazon gift card. We do NOT collect or store any personally identifiable information
+                (PII)
+                through your participation in this research study.</p>
+            <p>We may publish our overall findings in scientific conferences and research meetings. This may include a
+                list
+                of inconsistencies you have identified, along with the steps taken in the Tool. This data will NOT be
+                associated with you, and will NOT include information such as your username or email address.</p>
+
+            <h3 id="data-collection">Data Collection</h3>
+            <p>The Tool will collect data about your interactions, including:</p>
+            <ul>
+                <li>Wikipedia pages you visit</li>
+                <li>Claims you review</li>
+                <li>Inconsistencies you identify</li>
+                <li>Time spent on each task</li>
+            </ul>
+            <p>This data will be used solely for research purposes and will be handled according to our privacy policy.
+            </p>
+
+            <h3 id="time">Time Involvement</h3>
+            <p>We will email you "claims" in batches of N. Each claim is a short statement from a random Wikipedia
+                article.
+                We ask you to use the Tool to search Wikipedia, to find other statements that may contradict each given
+                claim. We estimate that each batch will take between 45-60 minutes to complete. After finishing a batch,
+                you
+                will have the option to sign up for another batch. You can sign up for as many or as few batches as you
+                would like, subject to availability.</p>
+
+            <h3 id="payment">Payment</h3>
+            <p>You will receive one Amazon gift card as payment for your participation. The gift card will be sent to
+                you
+                within 10 days of your last batch, via the email address you provided in the Expression of Interest
+                Form.
+                The value of the gift card will be $18 per batch of claims.</p>
+
+            <h3 id="risks">Risks and Benefits</h3>
+            <p>We are not aware of any risks associated with this study. We cannot and do not guarantee or promise that
+                you
+                will receive any benefits from this study, other than the payment provided.</p>
+
+            <h3 id="rights">Participant's Rights</h3>
+            <p>If you have read this form and have decided to participate in this study, please note that your
+                participation
+                is voluntary and you have the right to discontinue participation at any time without penalty or loss of
+                benefits to which you are otherwise entitled. The alternative is not to participate.</p>
+        </div>
+
+        <div class="section" id="contact">
+            <h2>Contact Information</h2>
+            <p>If you have any questions or concerns about this study, please contact the research team at
+                <a href="mailto:inconsistency@cs.stanford.edu">inconsistency@cs.stanford.edu</a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Add active class to current section in TOC
+        document.addEventListener('DOMContentLoaded', function () {
+            const sections = document.querySelectorAll('.section');
+            const tocLinks = document.querySelectorAll('.toc a');
+
+            window.addEventListener('scroll', function () {
+                let current = '';
+
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (window.pageYOffset >= sectionTop - 100) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                tocLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === '#' + current) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
