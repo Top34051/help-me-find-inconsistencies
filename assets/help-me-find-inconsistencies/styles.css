@@ -1,0 +1,333 @@
+/* Sidebar styles */
+#wiki-highlighter-sidebar {
+    position: fixed;
+    right: -300px;
+    top: 0;
+    width: 500px;
+    height: 100%;
+    background-color: white;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    transition: right 0.3s ease;
+    overflow-y: auto;
+    padding-bottom: 20px;
+}
+
+#wiki-highlighter-sidebar.active {
+    right: 0;
+}
+
+.wiki-inconsistency-sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #ddd;
+}
+
+.wiki-inconsistency-sidebar-header h3 {
+    margin: 0;
+    font-size: 16px;
+    color: #222;
+}
+
+#close-sidebar {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: #666;
+}
+
+.wiki-inconsistency-sidebar-content {
+    padding: 10px 15px;
+}
+
+.sidebar-term {
+    margin-bottom: 15px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.term-header {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    cursor: pointer;
+    padding: 5px 0;
+    gap: 10px;
+}
+
+.term-text {
+    font-weight: bold;
+    color: #0645ad;
+}
+
+.term-description {
+    padding: 4px;
+    /* background-color: #f8f8f8; */
+    /* border-radius: 4px; */
+    margin-top: 5px;
+    font-size: 15px;
+    color: #333;
+    display: none;
+}
+
+.term-description.visible {
+    display: block;
+}
+
+.feedback-box {
+    padding: 8px 12px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    gap: 8px;
+    background-color: #f5f5f5;
+    margin-top: 10px;
+}
+
+.feedback-question {
+    margin-bottom: 5px;
+}
+
+.feedback-buttons {
+    margin-top: 5px;
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+}
+
+.feedback-buttons button {
+    border-radius: 15px;
+    padding: 5px;
+}
+
+.thank-you-box {
+    padding: 5px;
+    background-color: #e8f5e9;
+    border-radius: 4px;
+    margin-top: 5px;
+    text-align: center;
+    color: #2e7d32;
+    font-size: 14px;
+}
+
+/* Highlight styles */
+.highlight {
+    background-color: #ffeb3b;
+    cursor: pointer;
+    /* padding: 0 px; */
+    border-radius: 2px;
+    position: relative;
+}
+
+.highlight:hover {
+    background-color: #ffd600;
+}
+
+.highlight.active {
+    background-color: #ffc107;
+}
+
+/* Tooltip styles */
+.highlight-tooltip {
+    position: absolute;
+    background-color: #333;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 14px;
+    max-width: 300px;
+    z-index: 1001;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.highlight-tooltip:after {
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: 10px;
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 6px solid #333;
+}
+
+.mw-body {
+    transition: margin-right 0.3s ease;
+}
+
+#wiki-highlighter-sidebar.active+.mw-body {
+    margin-right: 300px;
+}
+
+.helpful-button {
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 16px;
+    font-size: 15px;
+    font-weight: bold;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+}
+
+.helpful-button[data-response="yes"] {
+    background-color: white;
+    color: #666;
+    border: 1px solid #ddd;
+}
+
+.helpful-button[data-response="yes"]:hover {
+    background-color: #3b9c3f;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    color: white;
+}
+
+.helpful-button[data-response="no"] {
+    background-color: white;
+    color: #666;
+    border: 1px solid #ddd;
+}
+
+.helpful-button[data-response="no"]:hover {
+    background-color: #f44336;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    color: white;
+}
+
+.marked-helpful {
+    background-color: #4CAF50;
+    color: white;
+    cursor: not-allowed;
+}
+
+/* Session info and progress bar */
+.wiki-inconsistency-sidebar-session-info {
+    padding: 10px 15px;
+    background-color: #f0f0f0;
+    border-bottom: 1px solid #ddd;
+}
+
+#analysis-status {
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+#analysis-substatus {
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: #666;
+}
+
+#progress-container {
+    height: 10px;
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+#progress-bar {
+    height: 100%;
+    width: 0%;
+    background-color: #4CAF50;
+    transition: width 0.3s ease;
+}
+
+/* Status badges */
+.status-badge {
+    padding: 2px 6px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.status-extracted {
+    background-color: #e0e0e0;
+    color: #333;
+}
+
+.status-analyzing {
+    background-color: #2196F3;
+    color: white;
+}
+
+.status-inconsistent {
+    background-color: #F44336;
+    color: white;
+}
+
+.status-consistent {
+    background-color: #4CAF50;
+    color: white;
+}
+
+/* Check inconsistency button */
+.wiki-inconsistency-check-button {
+    background-color: #F44336;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 10px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.wiki-inconsistency-check-button:hover {
+    background-color: #D32F2F;
+}
+
+.like-button {
+    background-color: #f0f0f0;
+    color: #333;
+    border: 1px solid #ddd;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-left: 5px;
+    font-size: 15px;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.like-button:hover {
+    background-color: #e8f5e9;
+    border-color: #81c784;
+    color: #2e7d32;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+.like-button.liked {
+    background-color: #4CAF50;
+    color: white;
+    cursor: not-allowed;
+}
+
+.like-button:hover {
+    background-color: #e8f5e9;
+    border-color: #81c784;
+    color: #2e7d32;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+.term-actions {
+    display: flex;
+    align-items: center;
+}
+
+.term-actions .like-button {
+    margin-left: 5px;
+}
+
+.term-actions .status-badge {
+    margin-right: 5px;
+}
