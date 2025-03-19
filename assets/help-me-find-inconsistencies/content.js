@@ -5,6 +5,9 @@
     let claims = [];
     let sidebar = null;
     let sidebarVisible = true;
+    let isResizing = false;
+    let initialX = 0;
+    let initialWidth = 0;
 
     // At the top of your file, determine the protocol based on the current page
     const API_BASE_URL = 'https://inconsistency.genie.stanford.edu/api';
@@ -20,6 +23,7 @@
         sidebar.id = 'wiki-highlighter-sidebar';
         sidebar.style.transform = 'translateX(0)';  // Initialize transform
         sidebar.innerHTML = `
+            <div class="resize-handle"></div>
             <div class="session-info">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                     <div id="analysis-status">Initializing...</div>
@@ -48,12 +52,43 @@
             sidebarVisible = true;
         });
 
-
         document.getElementById('minimize-sidebar').addEventListener('click', () => {
             sidebar.style.transform = 'translateX(100%)';  // Hide sidebar
             toggleButton.style.display = 'block';
             sidebarVisible = false;
         });
+
+        // Add resize functionality
+        const resizeHandle = sidebar.querySelector('.resize-handle');
+
+        resizeHandle.addEventListener('mousedown', (e) => {
+            isResizing = true;
+            initialX = e.clientX;
+            initialWidth = parseInt(window.getComputedStyle(sidebar).width, 10);
+
+            document.addEventListener('mousemove', handleMouseMove);
+            document.addEventListener('mouseup', handleMouseUp);
+
+            // Prevent text selection during resize
+            document.body.style.userSelect = 'none';
+            e.preventDefault();
+        });
+
+        function handleMouseMove(e) {
+            if (!isResizing) return;
+
+            const deltaX = initialX - e.clientX;
+            const newWidth = Math.max(250, initialWidth + deltaX); // Set minimum width to 250px
+
+            sidebar.style.width = `${newWidth}px`;
+        }
+
+        function handleMouseUp() {
+            isResizing = false;
+            document.removeEventListener('mousemove', handleMouseMove);
+            document.removeEventListener('mouseup', handleMouseUp);
+            document.body.style.userSelect = '';
+        }
 
         return sidebar;
     }
