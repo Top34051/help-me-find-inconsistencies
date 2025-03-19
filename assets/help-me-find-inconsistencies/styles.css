@@ -52,14 +52,14 @@
     right: 0;
     top: 10%;
     transform: translateY(-50%);
-    background-color: #f8f9fa;
-    border: 1px solid #ddd;
+    background-color: #ffebee;
+    border: 1px solid #ffcdd2;
     border-right: none;
     padding: 10px;
     cursor: pointer;
     z-index: 999;
     border-radius: 4px 0 0 4px;
-    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+    box-shadow: -2px 0 5px rgba(183, 28, 28, 0.2);
 }
 
 .sidebar-content {
