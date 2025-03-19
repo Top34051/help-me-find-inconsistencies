@@ -50,7 +50,7 @@
 #show-sidebar-button {
     position: fixed;
     right: 0;
-    top: 20%;
+    top: 10%;
     transform: translateY(-50%);
     background-color: #f8f9fa;
     border: 1px solid #ddd;
@@ -256,7 +256,7 @@
 
 /* Session info and progress bar */
 .session-info {
-    padding: 10px 15px;
+    padding: 15px 15px;
     background-color: #f0f0f0;
     border-bottom: 1px solid #ddd;
     position: sticky;
