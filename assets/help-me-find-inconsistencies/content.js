@@ -4,6 +4,7 @@
     let websocket = null;
     let claims = [];
     let sidebar = null;
+    let sidebarVisible = true;
 
     // At the top of your file, determine the protocol based on the current page
     const API_BASE_URL = 'https://inconsistency.genie.stanford.edu/api';
@@ -17,32 +18,45 @@
 
         const sidebar = document.createElement('div');
         sidebar.id = 'wiki-highlighter-sidebar';
+        sidebar.style.transform = 'translateX(0)';  // Initialize transform
         sidebar.innerHTML = `
-            <div class="wiki-inconsistency-sidebar-header">
-                <h3>Inconsistent Information</h3>
-                <button id="close-sidebar">×</button>
-            </div>
-            <div class="wiki-inconsistency-sidebar-session-info">
-                <div id="analysis-status">Initializing...</div>
+            <div class="session-info">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div id="analysis-status">Initializing...</div>
+                    <button id="minimize-sidebar" style="margin-left: auto;">−</button>
+                </div>
                 <div id="analysis-substatus"></div>
                 <div id="progress-container">
                     <div id="progress-bar"></div>
                 </div>
             </div>
-            <div class="wiki-inconsistency-sidebar-content"></div>
+            <div class="sidebar-content"></div>
         `;
 
         document.body.appendChild(sidebar);
 
-        document.getElementById('close-sidebar').addEventListener('click', () => {
-            sidebar.classList.remove('active');
+        // Create a toggle button that appears when sidebar is minimized
+        const toggleButton = document.createElement('button');
+        toggleButton.id = 'show-sidebar-button';
+        toggleButton.textContent = 'Show Inconsistencies';
+        toggleButton.style.display = 'none';
+        document.body.appendChild(toggleButton);
+
+        toggleButton.addEventListener('click', () => {
+            sidebar.style.transform = 'translateX(0)';  // Show sidebar
+            toggleButton.style.display = 'none';
+            sidebarVisible = true;
         });
 
-        // No inline styles - all styles are in styles.css
+
+        document.getElementById('minimize-sidebar').addEventListener('click', () => {
+            sidebar.style.transform = 'translateX(100%)';  // Hide sidebar
+            toggleButton.style.display = 'block';
+            sidebarVisible = false;
+        });
 
         return sidebar;
     }
-
     function updateProgress(status, progress) {
         const statusElement = document.getElementById('analysis-status');
         const subStatusElement = document.getElementById('analysis-substatus');
@@ -100,11 +114,17 @@
             return null;
         }
 
-        const sidebarContent = document.querySelector('.wiki-inconsistency-sidebar-content');
+        const sidebarContent = document.querySelector('.sidebar-content');
         const claimElement = document.createElement('div');
         claimElement.className = 'sidebar-term';
         claimElement.setAttribute('data-claim-id', claim.id);
         claimElement.setAttribute('data-claim-status', claim.status);
+        claimElement.style.cursor = 'pointer'; // Add pointer cursor to indicate clickability
+
+        // Store the position in the document for scrolling
+        if (claim.position) {
+            claimElement.setAttribute('data-position', claim.position);
+        }
 
         const reportContent = claim.report ?
             `<div class="term-description">${claim.report}</div>` :
@@ -138,7 +158,20 @@
             <div class="thank-you-box" style="display: none;">Thank you for your feedback!</div>
         `;
 
-        claimElement.querySelector('.term-header').addEventListener('click', (e) => {
+        claimElement.addEventListener('click', (e) => {
+            // Skip if clicking on feedback buttons
+            if (e.target.closest('.helpful-button')) {
+                return;
+            }
+
+            // Clear any previous highlights in sidebar
+            document.querySelectorAll('.sidebar-term.highlighted').forEach(term => {
+                term.classList.remove('highlighted');
+            });
+
+            // Highlight this term in the sidebar
+            claimElement.classList.add('highlighted');
+
             const description = claimElement.querySelector('.term-description');
             description.classList.toggle('visible');
 
@@ -158,14 +191,30 @@
                     el.classList.toggle('active');
                 });
             }
+
+            // Go to the claim in the page
+            const highlights = document.querySelectorAll(`.highlight[data-claim-id="${claim.id}"]`);
+            if (highlights.length > 0) {
+                // Scroll to the first highlight
+                highlights[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+                // Highlight all instances in the page
+                document.querySelectorAll('.highlight.active').forEach(h => {
+                    h.classList.remove('active');
+                });
+
+                highlights.forEach(h => {
+                    h.classList.add('active');
+                });
+            }
         });
 
         // Add helpful button event listener
         claimElement.querySelectorAll('.helpful-button').forEach(button => {
             button.addEventListener('click', (e) => {
                 e.stopPropagation();
-                const claimId = e.target.getAttribute('data-claim-id');
-                const response = e.target.getAttribute('data-response');
+                const claimId = e.currentTarget.getAttribute('data-claim-id');
+                const response = e.currentTarget.getAttribute('data-response');
 
                 giveFeedback(claimId, response);
 
@@ -185,29 +234,34 @@
 
         sidebarContent.appendChild(claimElement);
 
-        // Sort claims to prioritize "inconsistent" ones
+        // Sort claims to prioritize "inconsistent" ones and maintain document order
         sortClaimsInSidebar();
 
         return claimElement;
     }
 
     function sortClaimsInSidebar() {
-        const sidebarContent = document.querySelector('.wiki-inconsistency-sidebar-content');
+        const sidebarContent = document.querySelector('.sidebar-content');
         if (!sidebarContent) return;
 
         const claimElements = Array.from(sidebarContent.querySelectorAll('.sidebar-term'));
 
-        // Sort the elements: inconsistent first, then others
+        // Sort the elements: inconsistent first, then by position in document
         claimElements.sort((a, b) => {
             const statusA = a.getAttribute('data-claim-status');
             const statusB = b.getAttribute('data-claim-status');
+            const positionA = parseInt(a.getAttribute('data-position')) || 999999;
+            const positionB = parseInt(b.getAttribute('data-position')) || 999999;
 
+            // First sort by status (inconsistent first)
             if (statusA === 'inconsistent' && statusB !== 'inconsistent') {
                 return -1;
             } else if (statusA !== 'inconsistent' && statusB === 'inconsistent') {
                 return 1;
             }
-            return 0;
+
+            // Then sort by position in document
+            return positionA - positionB;
         });
 
         // Remove all elements and re-append in sorted order
@@ -301,6 +355,7 @@
         function highlightText(element, searchText, claimId) {
             const instance = new Mark(element);
             let count = 0;
+            let firstPosition = null;
 
             instance.mark(searchText, {
                 element: "span",
@@ -325,24 +380,51 @@
                 },
                 each: function (markedElement) {
                     markedElement.setAttribute("data-claim-id", claimId);
+
+                    // Store the first position for document ordering
+                    if (firstPosition === null) {
+                        // Get the Y position relative to the document
+                        const rect = markedElement.getBoundingClientRect();
+                        firstPosition = rect.top + window.scrollY;
+
+                        // Update the claim with its position
+                        const claimIndex = claims.findIndex(c => c.id === claimId);
+                        if (claimIndex !== -1) {
+                            claims[claimIndex].position = firstPosition;
+
+                            // Update the sidebar element with position
+                            const sidebarElement = document.querySelector(`.sidebar-term[data-claim-id="${claimId}"]`);
+                            if (sidebarElement) {
+                                sidebarElement.setAttribute('data-position', firstPosition);
+                            }
+                        }
+                    }
+
                     count++;
                 }
             });
 
-            return count;
+            return { count, position: firstPosition };
         }
 
         const highlightingSpan = claim.text_span ? claim.text_span : claim.text;
         const sentences = highlightingSpan.split(/[,.;:!?]/).filter(s => s.trim());
         let totalCount = 0;
+        let position = null;
 
         sentences.forEach(sentence => {
             const trimmedSentence = sentence.trim();
             if (trimmedSentence && trimmedSentence.split(/\s+/).length >= 5) {
-                const sentenceCount = highlightText(articleContent, trimmedSentence, claim.id);
-                totalCount += sentenceCount;
+                const result = highlightText(articleContent, trimmedSentence, claim.id);
+                totalCount += result.count;
+                if (position === null && result.position !== null) {
+                    position = result.position;
+                }
             }
         });
+
+        // After highlighting, resort the sidebar to maintain document order
+        sortClaimsInSidebar();
 
         document.querySelectorAll(`.highlight[data-claim-id="${claim.id}"]`).forEach(el => {
             el.addEventListener('click', (e) => {
@@ -364,10 +446,29 @@
                     showTooltip(el, claimObj.report);
                 }
 
-                // Highlight in sidebar
+                // Highlight in sidebar and make sure sidebar is visible
                 const sidebarTerm = document.querySelector(`.sidebar-term[data-claim-id="${claim.id}"]`);
                 if (sidebarTerm) {
+                    // Show sidebar if it's hidden
+                    if (!sidebarVisible) {
+                        const sidebar = document.getElementById('wiki-highlighter-sidebar');
+                        const toggleButton = document.getElementById('show-sidebar-button');
+                        if (sidebar && toggleButton) {
+                            sidebar.style.transform = 'translateX(0)';  // Show sidebar
+                            toggleButton.style.display = 'none';
+                            sidebarVisible = true;
+                        }
+                    }
+
+                    // Clear any previous highlights in sidebar
+                    document.querySelectorAll('.sidebar-term.highlighted').forEach(term => {
+                        term.classList.remove('highlighted');
+                    });
+
+                    // Highlight this term
+                    sidebarTerm.classList.add('highlighted');
                     sidebarTerm.querySelector('.term-description').classList.add('visible');
+                    sidebarTerm.querySelector('.feedback-box').style.display = 'block';
                     sidebarTerm.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                 }
             });
@@ -504,6 +605,7 @@
         // Add a loading indicator
         sidebar = createSidebar();
         sidebar.classList.add('active');
+        sidebarVisible = true;
         updateProgress('initiated', 0);
 
         fetch(`${API_BASE_URL}/analyze`, {
@@ -547,6 +649,7 @@
                 // Reset current analysis state
                 currentSessionId = null;
                 claims = [];
+                sidebarVisible = true;
 
                 // Close existing websocket connection if it exists
                 if (websocket && websocket.readyState === WebSocket.OPEN) {
@@ -563,7 +666,7 @@
                 });
 
                 // Clear sidebar content if it exists
-                const sidebarContent = document.querySelector('.wiki-inconsistency-sidebar-content');
+                const sidebarContent = document.querySelector('.sidebar-content');
                 if (sidebarContent) {
                     sidebarContent.innerHTML = '';
                 }

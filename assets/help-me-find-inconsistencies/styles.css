@@ -1,23 +1,29 @@
 /* Sidebar styles */
 #wiki-highlighter-sidebar {
     position: fixed;
-    right: -300px;
+    right: 0;
+    /* Changed from -300px to 0 */
     top: 0;
     width: 500px;
+    /* Changed from 500px to 300px for consistent width */
     height: 100%;
     background-color: white;
     box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
     z-index: 1000;
-    transition: right 0.3s ease;
+    transition: transform 0.3s ease;
+    /* Changed from right to transform */
     overflow-y: auto;
     padding-bottom: 20px;
+    transform: translateX(0);
+    /* Added for slide effect */
 }
 
 #wiki-highlighter-sidebar.active {
-    right: 0;
+    transform: translateX(0);
+    /* Changed from right: 0 */
 }
 
-.wiki-inconsistency-sidebar-header {
+.sidebar-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -26,13 +32,14 @@
     border-bottom: 1px solid #ddd;
 }
 
-.wiki-inconsistency-sidebar-header h3 {
+.sidebar-header h3 {
     margin: 0;
     font-size: 16px;
     color: #222;
 }
 
-#close-sidebar {
+#close-sidebar,
+#minimize-sidebar {
     background: none;
     border: none;
     font-size: 20px;
@@ -40,7 +47,22 @@
     color: #666;
 }
 
-.wiki-inconsistency-sidebar-content {
+#show-sidebar-button {
+    position: fixed;
+    right: 0;
+    top: 20%;
+    transform: translateY(-50%);
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-right: none;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 999;
+    border-radius: 4px 0 0 4px;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar-content {
     padding: 10px 15px;
 }
 
@@ -48,6 +70,13 @@
     margin-bottom: 15px;
     border-bottom: 1px solid #eee;
     padding-bottom: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.sidebar-term.highlighted {
+    background-color: #fff3cd;
+    border-radius: 8px;
+    padding: 10px;
 }
 
 .term-header {
@@ -66,8 +95,6 @@
 
 .term-description {
     padding: 4px;
-    /* background-color: #f8f8f8; */
-    /* border-radius: 4px; */
     margin-top: 5px;
     font-size: 15px;
     color: #333;
@@ -76,6 +103,25 @@
 
 .term-description.visible {
     display: block;
+}
+
+.goto-claim-button {
+    margin-left: auto;
+    background-color: #0645ad;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 3px 8px;
+    cursor: pointer;
+    font-size: 12px;
+    width: 60px;
+    /* Added fixed width */
+    text-align: center;
+    /* Added to center the text */
+}
+
+.goto-claim-button:hover {
+    background-color: #0056b3;
 }
 
 .feedback-box {
@@ -121,7 +167,6 @@
 .highlight {
     background-color: #ffeb3b;
     cursor: pointer;
-    /* padding: 0 px; */
     border-radius: 2px;
     position: relative;
 }
@@ -210,10 +255,13 @@
 }
 
 /* Session info and progress bar */
-.wiki-inconsistency-sidebar-session-info {
+.session-info {
     padding: 10px 15px;
     background-color: #f0f0f0;
     border-bottom: 1px solid #ddd;
+    position: sticky;
+    top: 0;
+    z-index: 100;
 }
 
 #analysis-status {
